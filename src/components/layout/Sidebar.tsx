@@ -7,7 +7,7 @@ import {
   Home, BarChart2, Users, CreditCard, CalendarDays, LogOut, Trello,
   ChevronLeft, ChevronRight, AlertTriangle, Briefcase, DollarSign,
   Eye, FolderKanban, ClipboardCheck, Heart, Calendar, MessageCircle,
-  Folder, Shield, Wallet, PanelLeftClose, PanelLeft, BookOpen
+  Folder, Shield, Wallet, PanelLeftClose, PanelLeft, BookOpen, FileText
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -109,6 +109,7 @@ export default function Sidebar() {
         { label: "Team", href: "/admin/team", icon: <Briefcase size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },
         { label: "Payroll", href: "/admin/payroll", icon: <Wallet size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },
         { label: "Finance", href: "/admin/finance", icon: <DollarSign size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },
+        { label: "Invoices", href: "/admin/invoices", icon: <FileText size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },
         { label: "Notices", href: "/admin/notices", icon: <AlertTriangle size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },
         { label: "Access", href: "/admin/access", icon: <Shield size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },
         { label: "Classified", href: "/classified", icon: <Eye size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },

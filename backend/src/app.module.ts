@@ -18,6 +18,7 @@ import { ExpensesModule } from './modules/expenses/expenses.module';
 import { KudosModule } from './modules/kudos/kudos.module';
 import { MeetingsModule } from './modules/meetings/meetings.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { InvoicesModule } from './modules/invoices/invoices.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module';
     KudosModule,
     MeetingsModule,
     AnalyticsModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
   providers: [
