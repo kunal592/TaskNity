@@ -15,6 +15,9 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { AttendanceModule } from './modules/attendance/attendance.module';
 import { LeavesModule } from './modules/leaves/leaves.module';
 import { ExpensesModule } from './modules/expenses/expenses.module';
+import { KudosModule } from './modules/kudos/kudos.module';
+import { MeetingsModule } from './modules/meetings/meetings.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
 
 @Module({
   imports: [
@@ -35,6 +38,9 @@ import { ExpensesModule } from './modules/expenses/expenses.module';
     AttendanceModule,
     LeavesModule,
     ExpensesModule,
+    KudosModule,
+    MeetingsModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [

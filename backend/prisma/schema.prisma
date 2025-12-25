@@ -68,6 +68,17 @@ model User {
   leaves     Leave[]
   expenses   Expense[]
 
+  // Kudos
+  kudosGiven    Kudos[] @relation("KudosGiven")
+  kudosReceived Kudos[] @relation("KudosReceived")
+
+  // Meetings
+  meetingsOrganized Meeting[] @relation("MeetingsOrganized")
+  meetingsAttending Meeting[] @relation("MeetingAttendees")
+
+  // Announcements
+  announcements Announcement[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -145,6 +156,59 @@ model Expense {
   // Relations
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// =============================================
+// TEAM CULTURE & COLLABORATION
+// =============================================
+
+model Kudos {
+  id      String @id @default(uuid())
+  message String
+  emoji   String @default("🎉")
+
+  // Who gave and received
+  fromUserId String
+  fromUser   User   @relation("KudosGiven", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUserId   String
+  toUser     User   @relation("KudosReceived", fields: [toUserId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+model Meeting {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  location    String?  // "Zoom", "Office Room 1", etc.
+  link        String?  // Meeting URL
+
+  // Organizer
+  organizerId String
+  organizer   User   @relation("MeetingsOrganized", fields: [organizerId], references: [id], onDelete: Cascade)
+
+  // Attendees
+  attendees User[] @relation("MeetingAttendees")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Announcement {
+  id       String   @id @default(uuid())
+  title    String
+  content  String
+  priority Priority @default(MEDIUM)
+  pinned   Boolean  @default(false)
+
+  // Author
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
