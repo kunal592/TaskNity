@@ -3,6 +3,7 @@ import './globals.css';
 import { AppProvider } from '@/context/AppContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { QueryProvider } from '@/providers/QueryProvider';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster as HotToaster } from 'react-hot-toast';
 import { Toaster } from '@/components/ui/toaster';
 import Sidebar from '@/components/layout/Sidebar';
@@ -30,16 +31,23 @@ export default function RootLayout({
         <QueryProvider>
           <AuthProvider>
             <AppProvider>
-              <Sidebar />
-              <main className="p-6 pt-20">
-                <div className="flex justify-end items-center gap-4 mb-6">
-                  <OrgTree />
-                  <LeaveRequestButton />
+              <TooltipProvider delayDuration={0}>
+                <div className="flex min-h-screen">
+                  <Sidebar />
+                  <main
+                    className="flex-1 p-6 transition-all duration-300 ease-in-out"
+                    style={{ marginLeft: 'var(--sidebar-width, 256px)' }}
+                  >
+                    <div className="flex justify-end items-center gap-4 mb-6">
+                      <OrgTree />
+                      <LeaveRequestButton />
+                    </div>
+                    {children}
+                  </main>
                 </div>
-                {children}
-              </main>
-              <Toaster />
-              <HotToaster />
+                <Toaster />
+                <HotToaster />
+              </TooltipProvider>
             </AppProvider>
           </AuthProvider>
         </QueryProvider>
