@@ -7,7 +7,7 @@ import {
   Home, BarChart2, Users, CreditCard, CalendarDays, LogOut, Trello,
   ChevronLeft, ChevronRight, AlertTriangle, Briefcase, DollarSign,
   Eye, FolderKanban, ClipboardCheck, Heart, Calendar, MessageCircle,
-  Folder, Shield, Wallet, PanelLeftClose, PanelLeft
+  Folder, Shield, Wallet, PanelLeftClose, PanelLeft, BookOpen
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -81,6 +81,7 @@ export default function Sidebar() {
         { label: "Tasks", href: "/tasks", icon: <Trello size={18} strokeWidth={1.8} />, access: roleAccess.canManageTasks },
         { label: "Projects", href: "/projects", icon: <FolderKanban size={18} strokeWidth={1.8} />, access: roleAccess.canManageProjects },
         { label: "Analytics", href: "/analytics", icon: <BarChart2 size={18} strokeWidth={1.8} />, access: roleAccess.canViewAnalytics },
+        { label: "Guide", href: "/guide", icon: <BookOpen size={18} strokeWidth={1.8} /> },
       ]
     },
     {
