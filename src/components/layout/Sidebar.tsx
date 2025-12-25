@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Home, BarChart2, Users, CreditCard, CalendarDays, LogOut, Trello, ChevronRight, Menu, AlertTriangle, Briefcase, DollarSign, Eye, FolderKanban, ClipboardCheck } from "lucide-react";
+import { Home, BarChart2, Users, CreditCard, CalendarDays, LogOut, Trello, ChevronRight, Menu, AlertTriangle, Briefcase, DollarSign, Eye, FolderKanban, ClipboardCheck, Heart, Calendar, MessageCircle, Folder, Shield, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/context/AppContext";
@@ -24,6 +24,10 @@ export default function Sidebar() {
     { label: "Dashboard", href: "/", icon: <Home size={18} /> },
     { label: "Tasks", href: "/tasks", icon: <Trello size={18} />, access: roleAccess.canManageTasks },
     { label: "Projects", href: "/projects", icon: <FolderKanban size={18} />, access: roleAccess.canManageProjects },
+    { label: "Meetings", href: "/meetings", icon: <Calendar size={18} /> },
+    { label: "Chat", href: "/chat", icon: <MessageCircle size={18} />, access: roleAccess.canManageTasks },
+    { label: "Kudos", href: "/kudos", icon: <Heart size={18} /> },
+    { label: "Documents", href: "/docs", icon: <Folder size={18} /> },
     { label: "Analytics", href: "/analytics", icon: <BarChart2 size={18} />, access: roleAccess.canViewAnalytics },
     { label: "Attendance", href: "/attendance", icon: <CalendarDays size={18} />, access: roleAccess.canMarkAttendance },
     { label: "Leave Management", href: "/leave-status", icon: <ClipboardCheck size={18} />, access: roleAccess.canManageTeam },
@@ -32,7 +36,9 @@ export default function Sidebar() {
     { label: "My Requests", href: "/expenses/my-requests", icon: <CreditCard size={18} />, access: !roleAccess.canManageExpenses },
     { label: "Admin Notices", href: "/admin/notices", icon: <AlertTriangle size={18} />, access: roleAccess.canManageTeam },
     { label: "Team", href: "/admin/team", icon: <Briefcase size={18} />, access: roleAccess.canManageTeam },
+    { label: "Payroll", href: "/admin/payroll", icon: <Wallet size={18} />, access: roleAccess.canManageTeam },
     { label: "Finance", href: "/admin/finance", icon: <DollarSign size={18} />, access: roleAccess.canManageTeam },
+    { label: "Access Control", href: "/admin/access", icon: <Shield size={18} />, access: roleAccess.canManageTeam },
     { label: "Classified", href: "/classified", icon: <Eye size={18} />, access: roleAccess.canManageTeam }
   ];
 
