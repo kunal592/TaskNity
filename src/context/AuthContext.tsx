@@ -123,8 +123,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
     const context = useContext(AuthContext);
+    // Return default values if context is not available (during SSR or before hydration)
     if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
+        return {
+            user: null,
+            isLoading: true,
+            isAuthenticated: false,
+            login: async () => { },
+            register: async () => { },
+            logout: () => { },
+            refreshUser: async () => { },
+        } as AuthContextType;
     }
     return context;
 }

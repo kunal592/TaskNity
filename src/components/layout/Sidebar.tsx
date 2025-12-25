@@ -1,13 +1,13 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import {
   Home, BarChart2, Users, CreditCard, CalendarDays, LogOut, Trello,
-  ChevronLeft, ChevronRight, Menu, AlertTriangle, Briefcase, DollarSign,
+  ChevronLeft, Menu, AlertTriangle, Briefcase, DollarSign,
   Eye, FolderKanban, ClipboardCheck, Heart, Calendar, MessageCircle,
-  Folder, Shield, Wallet, Settings, PanelLeftClose, PanelLeft
+  Folder, Shield, Wallet, PanelLeftClose, PanelLeft
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -33,8 +33,24 @@ type NavGroup = {
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { roleAccess } = useApp();
-  const { user, logout, isAuthenticated } = useAuth();
+
+  // Safe access to context - provide defaults
+  const appContext = useApp();
+  const authContext = useAuth();
+
+  const roleAccess = appContext?.roleAccess ?? {
+    canManageProjects: false,
+    canManageTasks: false,
+    canViewAnalytics: false,
+    canManageTeam: false,
+    canMarkAttendance: false,
+    canManageExpenses: false,
+  };
+
+  const user = authContext?.user ?? null;
+  const logout = authContext?.logout ?? (() => { });
+  const isAuthenticated = authContext?.isAuthenticated ?? false;
+
   const router = useRouter();
   const pathname = usePathname();
 
@@ -44,8 +60,8 @@ export default function Sidebar() {
     router.push('/login');
   };
 
-  // Grouped navigation items
-  const navGroups: NavGroup[] = [
+  // Grouped navigation items - memoized to prevent re-creation
+  const navGroups: NavGroup[] = useMemo(() => [
     {
       title: "Core",
       items: [
@@ -85,7 +101,7 @@ export default function Sidebar() {
         { label: "Classified", href: "/classified", icon: <Eye size={18} strokeWidth={1.8} />, access: roleAccess.canManageTeam },
       ]
     }
-  ];
+  ], [roleAccess]);
 
   const roleColors: Record<string, { bg: string; text: string }> = {
     OWNER: { bg: 'bg-yellow-100 dark:bg-yellow-900/30', text: 'text-yellow-700 dark:text-yellow-400' },
@@ -96,7 +112,7 @@ export default function Sidebar() {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
-    return pathname.startsWith(href);
+    return pathname?.startsWith(href) ?? false;
   };
 
   const sidebarWidth = isCollapsed ? 'w-[72px]' : 'w-64';
@@ -246,23 +262,23 @@ export default function Sidebar() {
                     <Avatar className="h-9 w-9 ring-2 ring-purple-100 dark:ring-purple-900">
                       <AvatarImage src={`https://i.pravatar.cc/36?u=${user.id}`} />
                       <AvatarFallback className="bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs">
-                        {user.name.split(' ').map(n => n[0]).join('')}
+                        {user.name?.split(' ').map(n => n[0]).join('') || 'U'}
                       </AvatarFallback>
                     </Avatar>
 
                     {!isCollapsed && (
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{user.name}</p>
+                        <p className="text-sm font-medium truncate">{user.name || 'User'}</p>
                         <div className="flex items-center gap-1.5">
                           <Badge
                             variant="secondary"
                             className={cn(
                               "text-[10px] px-1.5 py-0",
-                              roleColors[user.role]?.bg,
-                              roleColors[user.role]?.text
+                              user.role && roleColors[user.role]?.bg,
+                              user.role && roleColors[user.role]?.text
                             )}
                           >
-                            {user.role}
+                            {user.role || 'User'}
                           </Badge>
                           <span className="flex items-center gap-1 text-[10px] text-gray-400">
                             <span className="h-1.5 w-1.5 bg-green-500 rounded-full animate-pulse" />

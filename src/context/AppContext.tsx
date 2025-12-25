@@ -279,8 +279,32 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
 export function useApp() {
   const context = useContext(AppContext);
+  // Return default values if context is not available (during SSR or before hydration)
   if (!context) {
-    throw new Error('useApp must be used within an AppProvider');
+    return {
+      currentUser: null,
+      users: [],
+      projects: [],
+      tasks: [],
+      attendance: [],
+      leaves: [],
+      expenses: [],
+      expenseCategories: [],
+      roleAccess: {
+        canManageProjects: false,
+        canManageTasks: false,
+        canViewAnalytics: false,
+        canManageTeam: false,
+        canMarkAttendance: false,
+        canManageExpenses: false,
+      },
+      isLoading: true,
+      setProjects: () => { },
+      setTasks: () => { },
+      setLeaves: () => { },
+      setCurrentUser: () => { },
+      markAttendance: () => { },
+    } as AppContextType;
   }
   return context;
 }
